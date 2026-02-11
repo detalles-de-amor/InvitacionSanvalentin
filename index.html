@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -92,20 +90,30 @@
         .success-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 240, 243, 0.9);
+            background: rgba(255, 240, 243, 0.95);
             display: none;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 100;
             border-radius: 20px;
+            padding: 20px;
         }
         
         .success-message {
             font-family: 'Pacifico', cursive;
             color: var(--color-primary);
-            font-size: 3rem;
+            font-size: 2.5rem;
+            margin: 0;
             animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .success-subtext {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #d6334a;
+            margin-top: 15px;
+            animation: fadeIn 1s ease;
         }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -133,6 +141,7 @@
     <div id="level1" class="container">
         <div id="overlay-level1" class="success-overlay">
             <h2 class="success-message">¡Correcto! 😍</h2>
+            <p class="success-subtext">Fue cuando fuimos a la San Pablo a ver las carreras universitarias 🎓</p>
         </div>
 
         <h2>Nivel 1: ¿Dónde estamos?</h2>
@@ -165,8 +174,7 @@
         <p>Mira el video... se cortó. ¿Qué pasa justo después?</p>
         <div class="btn-grid">
             <button onclick="gameOver()">Yo me caigo 🤣</button>
-            <button onclick="checkLevel2()">Yo no me caigo 🤨</button>
-        </div>
+            <button onclick="checkLevel2()">Yo no me caigo 🤨</button> </div>
     </div>
 
     <div id="level3" class="container">
@@ -177,8 +185,7 @@
         <p style="margin-top: 30px;">¿Cuándo es nuestro aniversario?</p>
         <div class="btn-grid">
             <button onclick="gameOver()">12 de Junio</button>
-            <button onclick="checkLevel3()">14 de Mayo</button>
-            <button onclick="gameOver()">14 de Abril</button>
+            <button onclick="checkLevel3()">14 de Mayo</button> <button onclick="gameOver()">14 de Abril</button>
             <button onclick="gameOver()">20 de Mayo</button>
         </div>
     </div>
@@ -190,8 +197,7 @@
         <h2>Nivel 4: La Verdad</h2>
         <p style="margin-top: 30px;">¿Quién es más celoso(a)?</p>
         <div class="btn-grid">
-            <button onclick="checkLevel4()">Yo (Yoangelis) 🙋‍♀️</button>
-            <button onclick="gameOver()">Tú (Santiago) 🙋‍♂️</button>
+            <button onclick="checkLevel4()">Yo (Yoangelis) 🙋‍♀️</button> <button onclick="gameOver()">Tú (Santiago) 🙋‍♂️</button>
         </div>
     </div>
 
@@ -201,8 +207,7 @@
         <p style="font-weight: bold; font-size: 1.2rem;">¿Hace cuántos años nos conocimos?</p>
         <div class="btn-full" style="display: flex; flex-direction: column; gap: 15px;">
             <button onclick="gameOver()">Hace 2 años</button>
-            <button onclick="goTo('win-screen')">Hace 4 años</button>
-            <button onclick="gameOver()">Hace 6 años</button>
+            <button onclick="goTo('win-screen')">Hace 4 años</button> <button onclick="gameOver()">Hace 6 años</button>
         </div>
     </div>
 
@@ -252,7 +257,7 @@
         // --- FUNCIÓN PICA PICA (CONFETI) ---
         function lanzarPicaPica() {
             confetti({
-                particleCount: 100,
+                particleCount: 150,
                 spread: 70,
                 origin: { y: 0.6 }
             });
@@ -264,22 +269,24 @@
         }
 
         function checkLevel1() {
-            // 1. Imagen nítida
+            // 1. Imagen nítida INMEDIATAMENTE
             document.getElementById('img-nivel1').style.filter = `blur(0px)`;
             
-            // 2. Pica Pica
-            lanzarPicaPica();
-
-            // 3. Mostrar mensaje "Correcto"
-            const overlay = document.getElementById('overlay-level1');
-            overlay.style.display = 'flex';
-
-            // 4. Esperar 3 segundos para que disfrute el mensaje y la foto
+            // 2. Esperar 2 SEGUNDOS viendo solo la foto
             setTimeout(() => {
-                overlay.style.display = 'none';
-                goTo('level2');
-                document.getElementById('video2').play();
-            }, 3000);
+                // 3. Ahora sí, Pica Pica y Mensaje
+                lanzarPicaPica();
+                const overlay = document.getElementById('overlay-level1');
+                overlay.style.display = 'flex';
+
+                // 4. Esperar 3.5 segundos más para leer el texto largo
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    goTo('level2');
+                    document.getElementById('video2').play();
+                }, 3500);
+
+            }, 2000); // Fin de la espera inicial de 2 segundos
         }
 
         // Nivel 2
@@ -289,19 +296,15 @@
             video.src = "3.mp4";
             video.play();
             
-            // Ocultar botones para que no toque nada mientras ve el video
+            // Ocultar botones
             document.querySelector('#level2 .btn-grid').style.display = 'none';
 
-            // 2. Esperar a que el video termine para mostrar el mensaje
+            // 2. Esperar a que termine el video
             video.onended = function() {
-                // Pica Pica
                 lanzarPicaPica();
-                
-                // Mostrar mensaje "Eso es!"
                 const overlay = document.getElementById('overlay-level2');
                 overlay.style.display = 'flex';
 
-                // Esperar 2.5 segundos y cambiar de nivel
                 setTimeout(() => {
                     overlay.style.display = 'none';
                     goTo('level3');
@@ -309,7 +312,9 @@
             };
         }
 
-        // Función genérica para niveles de texto (3 y 4)
+        function checkLevel3() { triggerSuccessText('level3', 'level4'); }
+        function checkLevel4() { triggerSuccessText('level4', 'level5'); }
+
         function triggerSuccessText(currentId, nextId) {
             lanzarPicaPica();
             const overlay = document.getElementById('overlay-' + currentId);
@@ -321,13 +326,10 @@
             }, 2000);
         }
 
-        function checkLevel3() { triggerSuccessText('level3', 'level4'); }
-        function checkLevel4() { triggerSuccessText('level4', 'level5'); }
-
         function showRomance() {
             goTo('romance-screen');
             crearCorazones();
-            lanzarPicaPica(); // Un poco de confeti al final también
+            lanzarPicaPica();
         }
 
         function gameOver() { goTo('game-over'); }
@@ -356,3 +358,4 @@
     </script>
 </body>
 </html>
+
