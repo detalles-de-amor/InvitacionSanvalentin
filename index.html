@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Para Yoangelis ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --color-primary: #ff6b81; /* Rosa fuerte */
+            --color-secondary: #ffccd5; /* Rosa pastel */
+            --color-bg: #fff0f3; /* Fondo crema rosado */
+            --color-text: #5e2129;
+            --color-white: #ffffff;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            overflow-x: hidden; /* Evitar scroll horizontal */
+        }
+
+        /* Contenedor principal que permite scroll vertical */
+        .container {
+            display: none; /* Oculto por defecto */
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Empezar desde arriba */
+            min-height: 100vh;
+            padding: 20px;
+            text-align: center;
+            animation: fadeIn 0.6s ease-out;
+            padding-bottom: 50px; /* Espacio extra abajo */
+        }
+
+        .active { display: flex; }
+
+        /* Títulos */
+        h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--color-primary);
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        p { font-size: 1rem; line-height: 1.5; margin-bottom: 20px; }
+
+        /* Imágenes y Videos */
+        .media-container {
+            width: 100%;
+            max-width: 350px; /* Ancho máximo para celular */
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(255, 107, 129, 0.3);
+            margin-bottom: 20px;
+            background: white;
+            padding: 5px;
+        }
+
+        img, video {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+            display: block;
+        }
+
+        /* Nivel 1: Borrador */
+        #img-nivel1 {
+            transition: filter 0.2s;
+            filter: blur(20px);
+        }
+
+        input[type=range] {
+            width: 80%;
+            margin: 15px 0;
+            accent-color: var(--color-primary);
+        }
+
+        /* Botones */
+        .btn-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            width: 100%;
+            max-width: 350px;
+        }
+
+        .btn-full {
+            width: 100%;
+            max-width: 300px;
+        }
+
+        button {
+            background-color: var(--color-white);
+            border: 2px solid var(--color-primary);
+            color: var(--color-primary);
+            padding: 15px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button:active { transform: scale(0.95); }
+        
+        button.primary {
+            background-color: var(--color-primary);
+            color: white;
+        }
+
+        /* Pantalla Final */
+        .final-img {
+            max-width: 100%;
+            height: auto;
+            border: 4px solid white;
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Corazones Flotantes */
+        .heart {
+            position: fixed;
+            color: var(--color-primary);
+            font-size: 24px;
+            z-index: 1000;
+            animation: floatUp 4s linear infinite;
+            top: 100vh;
+        }
+
+        @keyframes floatUp {
+            to { transform: translateY(-120vh) rotate(360deg); }
+        }
+
+        /* Botón No Travieso */
+        #btn-no {
+            position: relative;
+            transition: top 0.2s, left 0.2s;
+        }
+
+        /* Texto pequeño de ayuda */
+        .hint { font-size: 0.8rem; color: #888; margin-top: -10px; margin-bottom: 20px; }
+
+    </style>
+</head>
+<body>
+
+    <div id="intro" class="container active">
+        <h1>¡Hola Yoangelis! 🌹</h1>
+        <p>Tengo una pregunta muy importante para ti...</p>
+        <div class="media-container">
+            <img src="https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif" alt="Intro">
+        </div>
+        <p>Pero antes, necesito saber si recuerdas nuestra historia.</p>
+        <button class="primary btn-full" onclick="goTo('level1')">Empezar el Reto</button>
+    </div>
+
+    <div id="level1" class="container">
+        <h2>Nivel 1: ¿Dónde estamos?</h2>
+        <div class="media-container">
+            <img src="1.jpg" id="img-nivel1" alt="Foto borrosa">
+        </div>
+        
+        <p>Usa el borrador para ver un poco mejor:</p>
+        <input type="range" min="5" max="20" value="20" oninput="ajustarBlur(this.value)">
+        <p class="hint">Desliza para aclarar</p>
+
+        <p>¿Reconoces el lugar?</p>
+        <div class="btn-grid">
+            <button onclick="gameOver()">Restaurante</button>
+            <button onclick="checkLevel1()">Universidad</button> <button onclick="gameOver()">Discoteca</button>
+            <button onclick="gameOver()">Parque</button>
+        </div>
+    </div>
+
+    <div id="level2" class="container">
+        <h2>Nivel 2: ¿Qué pasó después?</h2>
+        <div class="media-container">
+            <video id="video2" playsinline>
+                <source src="2.mp4" type="video/mp4">
+            </video>
+        </div>
+        <p>Mira el video... se cortó. ¿Qué pasa justo después?</p>
+        <div class="btn-grid">
+            <button onclick="checkLevel2()">Yo me caigo 🤣</button> <button onclick="gameOver()">Yo no me caigo 🤨</button>
+        </div>
+    </div>
+
+    <div id="level3" class="container">
+        <h2>Nivel 3: Fechas Importantes</h2>
+        <div class="media-container">
+            <img src="https://media.giphy.com/media/3o7TKr3nzbh5QQrDAc/giphy.gif" alt="Calendario">
+        </div>
+        <p>¿Cuándo es nuestro aniversario?</p>
+        <div class="btn-grid">
+            <button onclick="gameOver()">12 de Junio</button>
+            <button onclick="checkLevel3()">14 de Mayo</button> <button onclick="gameOver()">14 de Abril</button>
+            <button onclick="gameOver()">20 de Mayo</button>
+        </div>
+    </div>
+
+    <div id="level4" class="container">
+        <h2>Nivel 4: La Verdad</h2>
+        <div class="media-container">
+            <img src="https://media.giphy.com/media/l0HlCqV35hdEg2PN6/giphy.gif" alt="Celos">
+        </div>
+        <p>¿Quién es más celoso(a)?</p>
+        <div class="btn-grid">
+            <button onclick="checkLevel4()">Yo (Yoangelis) 🙋‍♀️</button> <button onclick="gameOver()">Tú (Santiago) 🙋‍♂️</button>
+        </div>
+    </div>
+
+    <div id="level5" class="container">
+        <h2>Nivel 5: El Origen</h2>
+        <p>Última pregunta para desbloquear el mensaje final...</p>
+        <p>¿Dónde nos conocimos?</p>
+        <div class="btn-full" style="display: flex; flex-direction: column; gap: 10px;">
+            <button onclick="gameOver()">En el colegio</button>
+            <button onclick="gameOver()">En la Universidad</button>
+            <button onclick="goTo('win-screen')">Por Facebook</button> </div>
+    </div>
+
+    <div id="win-screen" class="container">
+        <h1>¡Lo lograste! 🎉</h1>
+        <p>Has demostrado que conoces nuestra historia a la perfección.</p>
+        <p>Ahora sí, la pregunta más importante:</p>
+        <h2 style="color: var(--color-primary); font-size: 1.8rem; margin: 30px 0;">¿Quieres ser mi San Valentín?</h2>
+        
+        <div style="width: 100%; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+            <button class="primary" style="font-size: 1.2rem; padding: 20px 40px;" onclick="showRomance()">¡SÍ, OBVIO! ❤️</button>
+            <button id="btn-no" style="background: #ccc; border: none; color: white;" onmouseover="moverBoton()" ontouchstart="moverBoton()">No</button>
+        </div>
+    </div>
+
+    <div id="romance-screen" class="container">
+        <h1>¡Sabía que dirías que SÍ! 💘</h1>
+        <div class="media-container" style="max-width: 100%; box-shadow: none; background: transparent;">
+            <img src="4.jpg" class="final-img" alt="Nosotros">
+        </div>
+        <p style="font-size: 1.1rem; font-weight: bold; color: var(--color-primary);">
+            Eres mi persona favorita en el mundo, Santiago.
+        </p>
+        <p>Gracias por hacerme el hombre más feliz. Te amo infinito.</p>
+        <br>
+        <small>Captura esto y mándamelo ❤️</small>
+        <div id="hearts-container"></div>
+    </div>
+
+    <div id="game-over" class="container">
+        <h1 style="color: #555;">💔 Oh no...</h1>
+        <div class="media-container">
+            <img src="https://media.giphy.com/media/OPU6KKlaIW6s0/giphy.gif" alt="Llorando">
+        </div>
+        <p style="font-size: 1.3rem; font-weight: bold;">¿Cómo pudiste fallar?</p>
+        <p>Ya no quiero nada 😭</p>
+        <button class="primary" onclick="location.reload()">Intentar recuperar mi amor</button>
+    </div>
+
+    <script>
+        // Función para cambiar de pantalla
+        function goTo(id) {
+            document.querySelectorAll('.container').forEach(el => el.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0, 0); // Subir scroll al cambiar
+        }
+
+        // Lógica Nivel 1
+        function ajustarBlur(valor) {
+            document.getElementById('img-nivel1').style.filter = `blur(${valor}px)`;
+        }
+
+        function checkLevel1() {
+            // Quitamos el blur totalmente
+            document.getElementById('img-nivel1').style.filter = `blur(0px)`;
+            alert("¡Correcto! En la Universidad ❤️");
+            setTimeout(() => {
+                goTo('level2');
+                document.getElementById('video2').play(); // Reproducir video al cargar
+            }, 1000);
+        }
+
+        // Lógica Nivel 2
+        function checkLevel2() {
+            // Cambiamos al video completo
+            const video = document.getElementById('video2');
+            video.src = "3.mp4";
+            video.play();
+            // Esperamos 4 segundos (o lo que dure el video) para pasar
+            setTimeout(() => {
+                goTo('level3');
+            }, 5000); // Ajusta este 5000 al tiempo que quieras que vea el video completo
+        }
+
+        // Lógica Nivel 3
+        function checkLevel3() {
+            goTo('level4');
+        }
+
+        // Lógica Nivel 4
+        function checkLevel4() {
+            goTo('level5');
+        }
+
+        // Pantalla Final
+        function showRomance() {
+            goTo('romance-screen');
+            crearCorazones();
+        }
+
+        // Game Over
+        function gameOver() {
+            goTo('game-over');
+        }
+
+        // Botón No que se escapa
+        function moverBoton() {
+            const btn = document.getElementById('btn-no');
+            const newX = Math.random() * (window.innerWidth - 100);
+            const newY = Math.random() * (window.innerHeight - 100);
+            
+            btn.style.position = 'absolute';
+            btn.style.left = Math.max(0, newX) + 'px';
+            btn.style.top = Math.max(0, newY) + 'px';
+        }
+
+        // Lluvia de Corazones
+        function crearCorazones() {
+            const container = document.getElementById('hearts-container');
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤️'; // Puedes cambiar por 🌹 o 😍
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                
+                container.appendChild(heart);
+                
+                // Limpiar corazones viejos para que no se trabe el celular
+                setTimeout(() => {
+                    heart.remove();
+                }, 5000);
+            }, 300);
+        }
+    </script>
+</body>
+</html>
